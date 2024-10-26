@@ -9,7 +9,6 @@ import CookingPage from "./screens/CookingPage";
 import SixWeeksPage from "./screens/SixWeeksPage";
 import SignUpPage from "./screens/SignUpPage";
 import ExplorerPage from "./screens/ExplorerPage";
-import PaymentMethod from "./screens/PaymentMethod";
 import PaymentMethod1 from "./screens/PaymentMethod1";
 import CourseChosen from "./screens/CourseChosen";
 import IPhone1415ProMax1 from "./screens/IPhone1415ProMax1";
@@ -57,11 +56,7 @@ const App = () => {
             name="ExplorerPage"
             component={ExplorerPage}
             options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="PaymentMethod"
-            component={PaymentMethod}
-            options={{ headerShown: false }}
+          
           />
           <Stack.Screen
             name="PaymentMethod1"

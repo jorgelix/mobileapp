@@ -21,11 +21,7 @@ const IPhone1415ProMax1 = () => {
         source={require("../assets/vector-1.png")}
       />
       <Text style={[styles.text, styles.textTypo]} />
-      <Image
-        style={[styles.iphone1415ProMax6Inner, styles.iphone1415Position]}
-        contentFit="cover"
-        source={require("../assets/ellipse-2.png")}
-      />
+      
       <Image
         style={styles.ellipseIcon}
         contentFit="cover"
@@ -38,17 +34,8 @@ const IPhone1415ProMax1 = () => {
       >{`Welcome to Empowering the Nation, where we are dedicated to enhancing the skills and opportunities for domestic workers and gardeners. Founded in 2018, our mission is inspired by a deep-rooted desire to provide the same opportunities for growth and education that were not available to our founder's family and community.
 
 `}</Text>
-      <ButtonDanger
-        label="Learn more"
-        hasIconEnd={false}
-        hasIconStart={false}
-        propTop={426}
-      />
-      <ButtonDanger
-        label="Courses we offer    "
-        hasIconEnd={false}
-        hasIconStart={false}
-      />
+      
+      
       <ImageBackground
         style={[styles.tempimagekbm7kaIcon, styles.welcomeToEmpoweringPosition]}
         resizeMode="cover"

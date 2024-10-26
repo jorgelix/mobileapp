@@ -17,25 +17,17 @@ const Frame10 = () => {
         source={require("../assets/vector-11.png")}
       />
       <Text style={[styles.text, styles.textTypo]} />
-      <Image
-        style={styles.frameInner}
-        contentFit="cover"
-        source={require("../assets/ellipse-2.png")}
-      />
-      <Image
-        style={styles.ellipseIcon}
-        contentFit="cover"
-        source={require("../assets/ellipse-31.png")}
-      />
+      
+      
       <Text style={[styles.contactUs, styles.contactUsFlexBox]}>
         contact us
       </Text>
       <Text style={[styles.tel27Container, styles.contactUsFlexBox]}>
         <Text style={styles.tel}>TEL</Text>
-        <Text style={styles.text1}>{`: +27 +++ +++
+        <Text style={styles.text1}>{`: +27 784885586
 `}</Text>
         <Text style={styles.tel}>Email</Text>
-        <Text style={styles.text1}>{`: ++++@empoweringtn.com
+        <Text style={styles.text1}>{`: weareone@empoweringtn.com
 
 `}</Text>
         <Text style={styles.tel}>Address</Text>

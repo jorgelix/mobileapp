@@ -1,6 +1,16 @@
-import  React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, KeyboardAvoidingView, ScrollView } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  KeyboardAvoidingView,
+  ScrollView,
+} from "react-native";
 import Menu from "../components/Menu";
+
 const PaymentMethod = () => {
   const [name, setName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
@@ -11,24 +21,37 @@ const PaymentMethod = () => {
   const handlePayment = () => {
     console.log("Pay Now button pressed!"); // Debug log
 
-    // Basic error checking
-    if (!name || !cardNumber || !expiryDate || !cvv || !billingAddress) {
-      Alert.alert("Error", "Please fill out all fields.");
+    // Basic error checking with individual alerts for clarity
+    if (!name) {
+      Alert.alert("Error", "Please enter the name on the card.");
       return;
     }
-
+    if (!cardNumber) {
+      Alert.alert("Error", "Please enter your card number.");
+      return;
+    }
     if (cardNumber.length !== 16) {
       Alert.alert("Error", "Card number must be 16 digits.");
       return;
     }
-
+    if (!expiryDate) {
+      Alert.alert("Error", "Please enter the expiry date.");
+      return;
+    }
     if (!/^\d{2}\/\d{2}$/.test(expiryDate)) {
       Alert.alert("Error", "Expiry date must be in MM/YY format.");
       return;
     }
-
+    if (!cvv) {
+      Alert.alert("Error", "Please enter the CVV.");
+      return;
+    }
     if (cvv.length !== 3) {
       Alert.alert("Error", "CVV must be 3 digits.");
+      return;
+    }
+    if (!billingAddress) {
+      Alert.alert("Error", "Please enter your billing address.");
       return;
     }
 

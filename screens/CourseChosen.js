@@ -1,15 +1,7 @@
 import React, { useState } from "react";
-import { Image } from "expo-image";
-import { StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
+import { StyleSheet, Text, View, Pressable, ScrollView, TextInput } from "react-native";
 import { CheckBox } from "@rneui/themed";
-import {
-  Color,
-  FontFamily,
-  FontSize,
-  Gap,
-  Border,
-  Padding,
-} from "../GlobalStyles";
+import { Color, FontFamily, FontSize, Gap } from "../GlobalStyles";
 import Menu from "../components/Menu";
 
 const CourseChosen = () => {
@@ -33,6 +25,12 @@ const CourseChosen = () => {
     lifeSkills: false,
   });
 
+  const [contactDetails, setContactDetails] = useState({
+    name: "",
+    phoneNumber: "",
+    email: "",
+  });
+
   const handleCheckboxChange = (course) => {
     setCheckedCourses((prevState) => ({
       ...prevState,
@@ -44,7 +42,7 @@ const CourseChosen = () => {
     const selectedCourses = Object.keys(checkedCourses).filter(course => checkedCourses[course]);
     const totalFees = selectedCourses.reduce((total, course) => total + courseFees[course], 0);
 
-    let discountPercentage = 0;
+    let discountPercentage = 0;  
     if (selectedCourses.length > 3) {
       discountPercentage = 0.15;
     } else if (selectedCourses.length === 3) {
@@ -54,7 +52,17 @@ const CourseChosen = () => {
     }
 
     const discount = totalFees * discountPercentage;
-    return totalFees - discount;
+    const discountedTotal = totalFees - discount;
+
+    // Calculate VAT at 15%
+    const vat = discountedTotal * 0.15;
+
+    // Return the total with VAT included
+    return discountedTotal + vat;
+  };
+
+  const handleSubmit = () => {
+    alert(`Total Fees: R${calculateTotal()}\nName: ${contactDetails.name}\nPhone: ${contactDetails.phoneNumber}\nEmail: ${contactDetails.email}`);
   };
 
   return (
@@ -62,38 +70,33 @@ const CourseChosen = () => {
       <Menu />
       <View style={styles.frame}>
         <View style={[styles.frame1, styles.frameFlexBox]}>
-          <View style={[styles.frame2, styles.frameFlexBox]}>
-            
-          
-          </View>
+          <View style={[styles.frame2, styles.frameFlexBox]}></View>
         </View>
       </View>
       <View style={[styles.frame3, styles.frame3FlexBox]}>
         <Text style={[styles.selectDesiredCoursesContainer, styles.anneClr]}>
           <Text style={styles.anneTypo}>Select Desired Course/s</Text>
-          <Text style={styles.text}>{` `}</Text>
         </Text>
       </View>
 
       <View style={styles.checkboxContainer}>
         <ScrollView>
           <Text style={styles.courseHeader}>Six Weeks</Text>
-          {['childminding-750', 'cooking', 'gardenMaintenance'].map((course) => (
+          {['childminding', 'cooking', 'gardenMaintenance'].map((course) => (
             <CheckBox
               key={course}
-              title={course.charAt(0).toUpperCase() + course.slice(1).replace(/([A-Z])/g, ' $1')}
+              title={`${course.charAt(0).toUpperCase() + course.slice(1).replace(/([A-Z])/g, ' $1')} - R${courseFees[course]}`}
               checked={checkedCourses[course]}
               onPress={() => handleCheckboxChange(course)}
               containerStyle={styles.list4DensityLayout}
               textStyle={styles.checkboxText}
             />
           ))}
-
           <Text style={styles.courseHeader}>Six Months</Text>
           {['landscaping', 'lifeSkills', 'firstAid', 'sewing'].map((course) => (
             <CheckBox
               key={course}
-              title={course.charAt(0).toUpperCase() + course.slice(1).replace(/([A-Z])/g, ' $1')}
+              title={`${course.charAt(0).toUpperCase() + course.slice(1).replace(/([A-Z])/g, ' $1')} - R${courseFees[course]}`}
               checked={checkedCourses[course]}
               onPress={() => handleCheckboxChange(course)}
               containerStyle={styles.list4DensityLayout}
@@ -103,10 +106,33 @@ const CourseChosen = () => {
         </ScrollView>
       </View>
 
+      {/* Contact Details Form */}
+      <View style={styles.contactContainer}>
+        <Text style={styles.contactHeader}>Enter Your Contact Details</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Name"
+          value={contactDetails.name}
+          onChangeText={(text) => setContactDetails((prev) => ({ ...prev, name: text }))}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Phone Number"
+          value={contactDetails.phoneNumber}
+          onChangeText={(text) => setContactDetails((prev) => ({ ...prev, phoneNumber: text }))}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={contactDetails.email}
+          onChangeText={(text) => setContactDetails((prev) => ({ ...prev, email: text }))}
+        />
+      </View>
+
       <View style={styles.frame4} />
       <View style={[styles.frame5, styles.frameLayout]}>
         <View style={styles.frame6}>
-          <Pressable style={[styles.frame7, styles.frameLayout]} onPress={() => alert(`Total Fees: R${calculateTotal()}`)}>
+          <Pressable style={[styles.frame7, styles.frameLayout]} onPress={handleSubmit}>
             <Text style={[styles.next, styles.anneTypo]}>Next</Text>
           </Pressable>
         </View>
@@ -153,12 +179,32 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 20,
   },
- 
   totalText: {
     fontSize: FontSize.size_6xl,
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
+  },
+  contactContainer: {
+    padding: 10,
+    backgroundColor: "#FFD700",
+    borderRadius: 5,
+    marginBottom: 20,
+    elevation: 2,
+  },
+  contactHeader: {
+    fontWeight: "bold",
+    fontSize: FontSize.size_5xl,
+    marginVertical: 10,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingLeft: 8,
+    marginVertical: 5,
+    backgroundColor: "white",
   },
   frame3FlexBox: {
     flex: 1,
@@ -203,12 +249,6 @@ const styles = StyleSheet.create({
     width: 65,
     height: 60,
   },
-  anne: {
-    textAlign: "left",
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    fontSize: FontSize.size_8xl,
-  },
   frame2: {
     width: 139,
     gap: Gap.gap_7xs,
@@ -229,71 +269,20 @@ const styles = StyleSheet.create({
       height: 4,
     },
     shadowColor: "rgba(0, 0, 0, 0.25)",
-    alignSelf: "stretch",
-  },
-  lineParent: {
-    borderBottomWidth: 3,
-    width: 55,
-    gap: Gap.gap_2xs,
-    borderColor: Color.backgroundDefaultDefault,
-    borderStyle: "solid",
-    borderTopWidth: 3,
-    shadowOpacity: 1,
-    elevation: 4,
-    shadowRadius: 4,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowColor: "rgba(0, 0, 0, 0.25)",
   },
   frame1: {
-    gap: Gap.gap_6xl,
-    alignItems: "center",
-    width: 384,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    flex: 1,
   },
   frame: {
-    height: 197,
-    width: 384,
-    alignItems: "flex-end",
-    overflow: "hidden",
+    marginBottom: 40,
   },
-  text: {
-    fontSize: FontSize.size_5xl,
-    fontWeight: "200",
-    fontFamily: FontFamily.interExtraLight,
+  courseChosen: {
+    flex: 1,
+    backgroundColor: Color.backgroundDefaultDefault,
+    padding: 20,
   },
-  selectDesiredCoursesContainer: {
-    textAlign: "left",
-    fontFamily: FontFamily.interRegular,
-    fontSize: FontSize.size_lg,
-    fontWeight: "400",
-  },
-  frame4: {
-    height: 20,
-    width: 33,
-  },
-  frame5: {
-    width: "100%",
-    alignItems: "flex-end",
-  },
-  frame6: {
-    width: "50%",
-    alignItems: "flex-end",
-  },
-  frame7: {
-    width: 168,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FFD700",
-    borderRadius: 10,
-    height: 56,
-  },
-  next: {
-    color: "white",
-    fontWeight: "600",
-  },
-  
 });
 
 export default CourseChosen;
